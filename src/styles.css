@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.input-no-outline {
+  outline: none;
+}
+
+body{
+  background-color: #FDF8F0;
+}
+
