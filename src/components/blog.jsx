@@ -1,56 +1,54 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import LazyLoad from "react-lazyload";
+import LazyLoad from 'react-lazyload';
 import right from "../assets/Icons/right.png";
-import axios from "axios";
-import { fetchArticles, removeArticle } from "../redux/articlesSlice";
+import axios from 'axios';
+import { fetchArticles, removeArticle, setArticlesLogged } from '../redux/articlesSlice';
 
 const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
 const Blog = () => {
   const dispatch = useDispatch();
-  const { articles, loading } = useSelector((state) => state.articles);
+  const { articles, loading, logged } = useSelector((state) => state.articles);
 
   useEffect(() => {
     dispatch(fetchArticles());
   }, [dispatch]);
 
   useEffect(() => {
-    if (!loading && articles.length > 0) {
+    if (!loading && articles.length > 0 && !logged) {
       console.log("Logging article tokens once when articles change:");
       articles.forEach((article) => {
         console.log("Token:", article.token);
       });
+      dispatch(setArticlesLogged());
     }
-  }, [articles, loading]);
+  }, [articles, loading, logged, dispatch]);
 
   const handleDelete = async (token) => {
     try {
       const response = await axios.delete(`${backendUrl}/posts/${token}`, {
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          'Authorization': `Bearer ${token}`,
+        }
       });
 
       if (response.status === 204) {
         dispatch(removeArticle(token));
       } else {
-        console.error(
-          "Failed to delete the post, status code:",
-          response.status
-        );
-        console.error("Response:", response.data);
+        console.error('Failed to delete the post, status code:', response.status);
+        console.error('Response:', response.data);
       }
     } catch (error) {
-      console.error("An error occurred while deleting the post:", error);
+      console.error('An error occurred while deleting the post:', error);
       if (error.response) {
-        console.error("Status code:", error.response.status);
-        console.error("Response data:", error.response.data);
+        console.error('Status code:', error.response.status);
+        console.error('Response data:', error.response.data);
       } else if (error.request) {
-        console.error("No response received:", error.request);
+        console.error('No response received:', error.request);
       } else {
-        console.error("Error message:", error.message);
+        console.error('Error message:', error.message);
       }
     }
   };
@@ -73,11 +71,7 @@ const Blog = () => {
               <p className="text-sm md:text-xl font-semibold text-customColor2 flex items-center">
                 All articles are verified
                 <span className="ml-2 text-customColr2">
-                  <img
-                    src={right}
-                    alt="Right Icon"
-                    className="h-4 w-4 md:h-6 md:w-6"
-                  />
+                  <img src={right} alt="Right Icon" className="h-4 w-4 md:h-6 md:w-6" />
                 </span>
               </p>
             </div>
@@ -94,16 +88,11 @@ const Blog = () => {
                   </button>
                 )}
                 <div className="m-auto overflow-hidden rounded-lg shadow-lg cursor-pointer h-90 w-72 md:w-80 xl:w-91">
-                  <Link
-                    to={`/post/${article.token}`}
-                    className="block w-full h-full"
-                  >
+                  <Link to={`/post/${article.token}`} className="block w-full h-full">
                     <LazyLoad height={200} offset={100}>
                       <img
                         alt={article.title}
-                        src={
-                          article.backgroundimg || "/images/blog/default.jpg"
-                        }
+                        src={article.backgroundimg || "/images/blog/default.jpg"}
                         className="object-cover w-full max-h-40"
                       />
                     </LazyLoad>
@@ -118,9 +107,7 @@ const Blog = () => {
                         <div className="relative block">
                           <img
                             alt={article.author.name}
-                            src={
-                              article.imageURL || "/images/person/default.jpg"
-                            }
+                            src={article.imageURL || "/images/person/default.jpg"}
                             className="mx-auto object-cover rounded-full h-10 w-10"
                           />
                         </div>
@@ -129,10 +116,8 @@ const Blog = () => {
                             {article.author.name}
                           </p>
                           <p className="text-gray-400 dark:text-gray-300">
-                            {new Date(
-                              article.publishedDate
-                            ).toLocaleDateString()}{" "}
-                            - {article.readTime} min read
+                            {new Date(article.publishedDate).toLocaleDateString()} -{" "}
+                            {article.readTime} min read
                           </p>
                         </div>
                       </div>
