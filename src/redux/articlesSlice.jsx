@@ -80,13 +80,11 @@ const articlesSlice = createSlice({
       state.articles = action.payload;
       state.loading = false;
     },
-
     removeArticle: (state, action) => {
       state.articles = state.articles.filter(
         (article) => article.token !== action.payload
       );
     },
-
     setArticlesLogged: (state) => {
       state.logged = true;
     },
