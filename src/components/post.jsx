@@ -1,31 +1,20 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
-import { GlobalStateContext } from "../GlobalStateContext";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchPost, addComment } from "../redux/articlesSlice";
 import loading from "../assets/Icons/loading.png";
-
-const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
 const Post = () => {
   const { token } = useParams();
-  const { article, setArticle } = useContext(GlobalStateContext);
+  const dispatch = useDispatch();
+  const article = useSelector((state) => state.articles.article);
+  const isLoading = useSelector((state) => state.articles.loading);
   const [newComment, setNewComment] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const [commentLoading, setCommentLoading] = useState(false); 
+  const [commentLoading, setCommentLoading] = useState(false);
 
   useEffect(() => {
-    const fetchPost = async () => {
-      try {
-        const response = await axios.get(`${backendUrl}/posts/${token}`);
-        setArticle(response.data);
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error fetching post:", error);
-      }
-    };
-
-    fetchPost();
-  }, [token, setArticle]);
+    dispatch(fetchPost(token));
+  }, [dispatch, token]);
 
   const handleCommentSubmit = async () => {
     if (newComment.trim() !== "") {
@@ -38,11 +27,7 @@ const Post = () => {
           timestamp: new Date().toISOString(),
         };
 
-        const response = await axios.post(`${backendUrl}/posts/${token}/comments`, comment);
-        setArticle((prevArticle) => ({
-          ...prevArticle,
-          comments: [...prevArticle.comments, response.data],
-        }));
+        await dispatch(addComment({ token, comment }));
         setNewComment("");
       } catch (error) {
         console.error("Error adding comment:", error);
@@ -100,12 +85,16 @@ const Post = () => {
 
         <div className="flex flex-col lg:flex-row lg:space-x-12">
           <div className="px-4 lg:px-0 mt-12 text-gray-700 text-base lg:text-lg leading-relaxed w-full lg:w-3/4">
-            <p className="pb-6 text-sm lg:text-lg font-semibold">{article.content}</p>
+            <p className="pb-6 text-sm lg:text-lg font-semibold">
+              {article.content}
+            </p>
             <div className="border-t border-gray-300 mt-8 pt-8">
               <h2 className="text-2xl font-semibold mb-4">Comments</h2>
               {article.comments.map((comment, index) => (
                 <div key={index} className="border p-4 mb-4">
-                  <h3 className="font-semibold text-sm lg:text-base">{comment.user}</h3>
+                  <h3 className="font-semibold text-sm lg:text-base">
+                    {comment.user}
+                  </h3>
                   <p className="text-sm lg:text-base">{comment.text}</p>
                   <p className="text-sm lg:text-base">{comment.timestamp}</p>
                 </div>

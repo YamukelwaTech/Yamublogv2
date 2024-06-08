@@ -1,26 +1,30 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { GlobalStateContext } from "../GlobalStateContext";
 import LazyLoad from 'react-lazyload';
 import right from "../assets/Icons/right.png";
 import axios from 'axios';
+import { fetchArticles, removeArticle, setArticlesLogged } from '../redux/articlesSlice';
 
 const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
 const Blog = () => {
-  const { articles, setArticles } = useContext(GlobalStateContext);
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const { articles, loading, logged } = useSelector((state) => state.articles);
 
   useEffect(() => {
-    console.log("Logging article tokens once when articles change:");
-    articles.forEach((article) => {
-      console.log("Token:", article.token);
-    });
+    dispatch(fetchArticles());
+  }, [dispatch]);
 
-    if (articles.length > 0) {
-      setLoading(false);
+  useEffect(() => {
+    if (!loading && articles.length > 0 && !logged) {
+      console.log("Logging article tokens once when articles change:");
+      articles.forEach((article) => {
+        console.log("Token:", article.token);
+      });
+      dispatch(setArticlesLogged());
     }
-  }, [articles]);
+  }, [articles, loading, logged, dispatch]);
 
   const handleDelete = async (token) => {
     try {
@@ -31,7 +35,7 @@ const Blog = () => {
       });
 
       if (response.status === 204) {
-        setArticles((prevArticles) => prevArticles.filter(article => article.token !== token));
+        dispatch(removeArticle(token));
       } else {
         console.error('Failed to delete the post, status code:', response.status);
         console.error('Response:', response.data);
