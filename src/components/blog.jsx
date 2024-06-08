@@ -2,8 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import right from "../assets/Icons/right.png";
-import axios from 'axios';
-import { fetchArticles, removeArticle, setArticlesLogged, setArticles } from '../redux/articlesSlice';
+import axios from "axios";
+import Footer from "../components/footer";
+import {
+  fetchArticles,
+  removeArticle,
+  setArticlesLogged,
+  setArticles,
+} from "../redux/articlesSlice";
 
 const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
@@ -12,7 +18,7 @@ const Blog = () => {
   const { articles, loading, logged } = useSelector((state) => state.articles);
 
   useEffect(() => {
-    const localArticles = localStorage.getItem('articles');
+    const localArticles = localStorage.getItem("articles");
     if (localArticles) {
       dispatch(setArticles(JSON.parse(localArticles)));
     } else {
@@ -27,7 +33,7 @@ const Blog = () => {
         console.log("Token:", article.token);
       });
       dispatch(setArticlesLogged());
-      localStorage.setItem('articles', JSON.stringify(articles));
+      localStorage.setItem("articles", JSON.stringify(articles));
     }
   }, [articles, loading, logged, dispatch]);
 
@@ -35,27 +41,32 @@ const Blog = () => {
     try {
       const response = await axios.delete(`${backendUrl}/posts/${token}`, {
         headers: {
-          'Authorization': `Bearer ${token}`,
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (response.status === 204) {
         dispatch(removeArticle(token));
-        const updatedArticles = articles.filter(article => article.token !== token);
-        localStorage.setItem('articles', JSON.stringify(updatedArticles));
+        const updatedArticles = articles.filter(
+          (article) => article.token !== token
+        );
+        localStorage.setItem("articles", JSON.stringify(updatedArticles));
       } else {
-        console.error('Failed to delete the post, status code:', response.status);
-        console.error('Response:', response.data);
+        console.error(
+          "Failed to delete the post, status code:",
+          response.status
+        );
+        console.error("Response:", response.data);
       }
     } catch (error) {
-      console.error('An error occurred while deleting the post:', error);
+      console.error("An error occurred while deleting the post:", error);
       if (error.response) {
-        console.error('Status code:', error.response.status);
-        console.error('Response data:', error.response.data);
+        console.error("Status code:", error.response.status);
+        console.error("Response data:", error.response.data);
       } else if (error.request) {
-        console.error('No response received:', error.request);
+        console.error("No response received:", error.request);
       } else {
-        console.error('Error message:', error.message);
+        console.error("Error message:", error.message);
       }
     }
   };
@@ -67,6 +78,7 @@ const Blog = () => {
   };
 
   return (
+    <>
     <div className="max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16 relative">
       {loading ? (
         <div className="flex items-center justify-center h-full">
@@ -84,7 +96,11 @@ const Blog = () => {
               <p className="text-sm md:text-xl font-semibold text-customColor2 flex items-center">
                 All articles are verified
                 <span className="ml-2 text-customColor2">
-                  <img src={right} alt="Right Icon" className="h-4 w-4 md:h-6 md:w-6" />
+                  <img
+                    src={right}
+                    alt="Right Icon"
+                    className="h-4 w-4 md:h-6 md:w-6"
+                  />
                 </span>
               </p>
             </div>
@@ -97,22 +113,25 @@ const Blog = () => {
                     <div
                       className="bg-cover text-center overflow-hidden"
                       style={{
-                        minHeight: '300px',
-                        backgroundImage: `url(${articles[0].backgroundimg || "/images/blog/default.jpg"})`,
+                        minHeight: "300px",
+                        backgroundImage: `url(${
+                          articles[0].backgroundimg ||
+                          "/images/blog/default.jpg"
+                        })`,
                       }}
                       title={articles[0].title}
                     />
                   </Link>
-                  <div
-                    className="mt-3 bg-customColor3 rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
-                  >
+                  <div className="mt-3 bg-customColor3 rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
                     <div>
-                      <Link to={`/category/${articles[0].category}`}
+                      <Link
+                        to={`/category/${articles[0].category}`}
                         className="text-xs text-indigo-600 uppercase font-medium hover:text-gray-900 transition duration-500 ease-in-out"
                       >
                         {articles[0].category}
                       </Link>
-                      <Link to={`/post/${articles[0].token}`}
+                      <Link
+                        to={`/post/${articles[0].token}`}
                         className="block text-gray-900 font-bold text-2xl mb-2 hover:text-indigo-600 transition duration-500 ease-in-out"
                       >
                         {articles[0].title}
@@ -139,20 +158,29 @@ const Blog = () => {
                         <div
                           className="h-40 bg-cover text-center overflow-hidden"
                           style={{
-                            backgroundImage: `url(${article.backgroundimg || "/images/blog/default.jpg"})`,
+                            backgroundImage: `url(${
+                              article.backgroundimg ||
+                              "/images/blog/default.jpg"
+                            })`,
                           }}
                           title={article.title}
                         >
                           <img
-                            src={article.backgroundimg || "/images/blog/default.jpg"}
+                            src={
+                              article.backgroundimg ||
+                              "/images/blog/default.jpg"
+                            }
                             alt={article.title}
-                            className={`object-cover w-full h-full ${!imageLoaded[index] ? 'blur' : ''}`}
+                            className={`object-cover w-full h-full ${
+                              !imageLoaded[index] ? "blur" : ""
+                            }`}
                             onLoad={() => handleImageLoad(index)}
-                            style={{ display: 'none' }}
+                            style={{ display: "none" }}
                           />
                         </div>
                       </Link>
-                      <Link to={`/post/${article.token}`}
+                      <Link
+                        to={`/post/${article.token}`}
                         className="text-gray-900 inline-block bg-inherent font-semibold text-md my-2 hover:text-indigo-600 transition duration-500 ease-in-out"
                       >
                         {article.title}
@@ -166,6 +194,8 @@ const Blog = () => {
         </>
       )}
     </div>
+        <Footer />
+        </>
   );
 };
 

@@ -7,16 +7,18 @@ const Footer = () => {
       <div className="max-w-screen-xl py-10 px-4 sm:px-6 text-gray-800 sm:flex justify-between mx-auto">
         <div className="p-5 sm:w-4/12">
           <div className="flex items-center mb-4">
-            <h3 className="font-bold text-xl text-customColor2">YamukelwaBlogs</h3>
+            <h3 className="font-bold text-xl text-customColor2">
+              YamukelwaBlogs
+            </h3>
             <img src={blog} alt="Blog Icon" className="ml-2 h-6 w-6" />
           </div>
           <p className="text-gray-500 text-sm mb-5">
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+            Track, share, measure—you have full control.
           </p>
           <div className="flex-row flex">
             <a href="/#" className="w-6 mx-1">
               <svg
-                className="fill-current cursor-pointer text-gray-500 hover:text-indigo-600"
+                className="fill-current cursor-pointer text-gray-500 hover:text-customColor4"
                 width="100%"
                 height="100%"
                 viewBox="0 0 24 24"
@@ -40,7 +42,7 @@ const Footer = () => {
             </a>
             <a href="/#" className="w-6 mx-1">
               <svg
-                className="fill-current cursor-pointer text-gray-500 hover:text-indigo-600"
+                className="fill-current cursor-pointer text-gray-500 hover:text-customColor4"
                 width="100%"
                 height="100%"
                 viewBox="0 0 24 24"
@@ -64,7 +66,7 @@ const Footer = () => {
             </a>
             <a href="/#" className="w-6 mx-1">
               <svg
-                className="fill-current cursor-pointer text-gray-500 hover:text-indigo-600"
+                className="fill-current cursor-pointer text-gray-500 hover:text-customColor4"
                 width="100%"
                 height="100%"
                 viewBox="0 0 24 24"
