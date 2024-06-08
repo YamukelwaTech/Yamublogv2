@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchPost, addComment } from "../redux/articlesSlice";
+import { fetchPost, addComment, resetCommentAdded } from "../redux/articlesSlice"; // Import the resetCommentAdded action
 import loading from "../assets/Icons/loading.png";
 
 const Post = () => {
@@ -11,10 +11,11 @@ const Post = () => {
   const isLoading = useSelector((state) => state.articles.loading);
   const [newComment, setNewComment] = useState("");
   const [commentLoading, setCommentLoading] = useState(false);
+  const commentAdded = useSelector((state) => state.articles.commentAdded); 
 
   useEffect(() => {
     dispatch(fetchPost(token));
-  }, [dispatch, token]);
+  }, [dispatch, token, commentAdded]);
 
   const handleCommentSubmit = async () => {
     if (newComment.trim() !== "") {
@@ -36,6 +37,12 @@ const Post = () => {
       }
     }
   };
+
+  useEffect(() => {
+    if (commentAdded) {
+      dispatch(resetCommentAdded());
+    }
+  }, [commentAdded, dispatch]);
 
   if (isLoading) {
     return (
