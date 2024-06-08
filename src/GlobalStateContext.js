@@ -5,7 +5,6 @@ const GlobalStateContext = createContext();
 
 const GlobalStateProvider = ({ children }) => {
   const [articles, setArticles] = useState([]);
-  const [article, setArticle] = useState(null);
 
   useEffect(() => {
     const generateRandomPublishTime = () => {
@@ -39,8 +38,6 @@ const GlobalStateProvider = ({ children }) => {
       value={{
         articles,
         setArticles,
-        article,
-        setArticle,
       }}
     >
       {children}

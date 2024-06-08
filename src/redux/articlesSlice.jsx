@@ -24,12 +24,31 @@ export const fetchArticles = createAsyncThunk(
   }
 );
 
+export const fetchPost = createAsyncThunk(
+  "articles/fetchPost",
+  async (token) => {
+    const response = await axios.get(`${backendUrl}/posts/${token}`);
+    return response.data;
+  }
+);
+
+export const addComment = createAsyncThunk(
+  "articles/addComment",
+  async ({ token, comment }) => {
+    const response = await axios.post(
+      `${backendUrl}/posts/${token}/comments`,
+      comment
+    );
+    return response.data;
+  }
+);
+
 const articlesSlice = createSlice({
   name: "articles",
   initialState: {
     articles: [],
     loading: true,
-    logged: false, 
+    logged: false,
   },
   reducers: {
     setArticles: (state, action) => {
@@ -48,6 +67,19 @@ const articlesSlice = createSlice({
     builder.addCase(fetchArticles.fulfilled, (state, action) => {
       state.articles = action.payload;
       state.loading = false;
+    });
+    builder.addCase(fetchPost.fulfilled, (state, action) => {
+      state.article = action.payload;
+      state.loading = false;
+    });
+    builder.addCase(addComment.fulfilled, (state, action) => {
+      const { token, comment } = action.payload;
+      const articleIndex = state.articles.findIndex(
+        (article) => article.token === token
+      );
+      if (articleIndex !== -1) {
+        state.articles[articleIndex].comments.push(comment);
+      }
     });
   },
 });
