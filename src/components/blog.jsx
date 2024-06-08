@@ -60,14 +60,14 @@ const Blog = () => {
     }
   };
 
-  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState({});
 
-  const handleImageLoad = () => {
-    setImageLoaded(true);
+  const handleImageLoad = (index) => {
+    setImageLoaded((prevState) => ({ ...prevState, [index]: true }));
   };
 
   return (
-    <div className="w-full p-12 bg-customColor1">
+    <div className="max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16 relative">
       {loading ? (
         <div className="flex items-center justify-center h-full">
           <p className="text-2xl font-semibold text-customColor2">
@@ -83,61 +83,85 @@ const Blog = () => {
               </p>
               <p className="text-sm md:text-xl font-semibold text-customColor2 flex items-center">
                 All articles are verified
-                <span className="ml-2 text-customColr2">
+                <span className="ml-2 text-customColor2">
                   <img src={right} alt="Right Icon" className="h-4 w-4 md:h-6 md:w-6" />
                 </span>
               </p>
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-12 md:grid-cols-2 xl:grid-cols-4">
-            {articles.map((article, index) => (
-              <div key={article.token} className="relative">
-                {index >= 12 && (
-                  <button
-                    onClick={() => handleDelete(article.token)}
-                    className="absolute top-0 right-0 mt-1 mr-1 p-1 bg-red-600 text-white rounded-full"
-                  >
-                    &times;
-                  </button>
-                )}
-                <div className="m-auto overflow-hidden rounded-lg shadow-lg cursor-pointer h-90 w-72 md:w-80 xl:w-91">
-                  <Link to={`/post/${article.token}`} className="block w-full h-full">
-                    <img
-                      alt={article.title}
-                      src={article.backgroundimg || "/images/blog/default.jpg"}
-                      className={`object-cover w-full max-h-40 ${!imageLoaded ? 'blur' : ''}`}
-                      onLoad={handleImageLoad}
+          <div className="grid grid-cols-1 sm:grid-cols-12 gap-5">
+            {articles.length > 0 && (
+              <>
+                <div className="sm:col-span-5">
+                  <Link to={`/post/${articles[0].token}`}>
+                    <div
+                      className="bg-cover text-center overflow-hidden"
+                      style={{
+                        minHeight: '300px',
+                        backgroundImage: `url(${articles[0].backgroundimg || "/images/blog/default.jpg"})`,
+                      }}
+                      title={articles[0].title}
                     />
-                    <div className="w-full p-4 dark:bg-customColor5">
-                      <p className="mb-2 text-xl font-medium text-gray-800 dark:text-white">
-                        {article.title}
+                  </Link>
+                  <div
+                    className="mt-3 bg-customColor3 rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
+                  >
+                    <div>
+                      <Link to={`/category/${articles[0].category}`}
+                        className="text-xs text-indigo-600 uppercase font-medium hover:text-gray-900 transition duration-500 ease-in-out"
+                      >
+                        {articles[0].category}
+                      </Link>
+                      <Link to={`/post/${articles[0].token}`}
+                        className="block text-gray-900 font-bold text-2xl mb-2 hover:text-indigo-600 transition duration-500 ease-in-out"
+                      >
+                        {articles[0].title}
+                      </Link>
+                      <p className="text-gray-700 text-base mt-2">
+                        {articles[0].description}
                       </p>
-                      <p className="font-light text-black dark:text-gray-300 text-md">
-                        {article.description}
-                      </p>
-                      <div className="flex items-center mt-4">
-                        <div className="relative block">
+                    </div>
+                  </div>
+                </div>
+
+                <div className="sm:col-span-7 grid grid-cols-2 lg:grid-cols-3 gap-5">
+                  {articles.slice(1).map((article, index) => (
+                    <div key={article.token} className="relative">
+                      {index >= 12 && (
+                        <button
+                          onClick={() => handleDelete(article.token)}
+                          className="absolute top-0 right-0 mt-1 mr-1 p-1 bg-red-600 text-white rounded-full"
+                        >
+                          &times;
+                        </button>
+                      )}
+                      <Link to={`/post/${article.token}`}>
+                        <div
+                          className="h-40 bg-cover text-center overflow-hidden"
+                          style={{
+                            backgroundImage: `url(${article.backgroundimg || "/images/blog/default.jpg"})`,
+                          }}
+                          title={article.title}
+                        >
                           <img
-                            alt={article.author.name}
-                            src={article.imageURL || "/images/person/default.jpg"}
-                            className="mx-auto object-cover rounded-full h-10 w-10"
+                            src={article.backgroundimg || "/images/blog/default.jpg"}
+                            alt={article.title}
+                            className={`object-cover w-full h-full ${!imageLoaded[index] ? 'blur' : ''}`}
+                            onLoad={() => handleImageLoad(index)}
+                            style={{ display: 'none' }}
                           />
                         </div>
-                        <div className="flex flex-col justify-between ml-4 text-sm">
-                          <p className="text-black dark:text-white">
-                            {article.author.name}
-                          </p>
-                          <p className="text-gray-400 dark:text-gray-300">
-                            {new Date(article.publishedDate).toLocaleDateString()} -{" "}
-                            {article.readTime} min read
-                          </p>
-                        </div>
-                      </div>
+                      </Link>
+                      <Link to={`/post/${article.token}`}
+                        className="text-gray-900 inline-block bg-inherent font-semibold text-md my-2 hover:text-indigo-600 transition duration-500 ease-in-out"
+                      >
+                        {article.title}
+                      </Link>
                     </div>
-                  </Link>
+                  ))}
                 </div>
-              </div>
-            ))}
+              </>
+            )}
           </div>
         </>
       )}
