@@ -6,7 +6,11 @@
   outline: none;
 }
 
-body{
-  background-color: #FDF8F0;
+body {
+  background-color: #fdf8f0;
 }
 
+.blur {
+  filter: blur(10px);
+  transition: filter 0.3s ease-out;
+}

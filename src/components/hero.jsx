@@ -1,11 +1,24 @@
-import React from "react";
-import LazyLoad from 'react-lazyload';
+import React, { useState } from "react";
 import pic1 from "../assets/imgs/carol-magalhaes-dSsXm15D9hg-unsplash.jpg";
 import pic2 from "../assets/imgs/gilles-lambert-pb_lF8VWaPU-unsplash.jpg";
 import pic3 from "../assets/imgs/psk-slayer-8Syeat16I-g-unsplash.jpg";
 import pic4 from "../assets/imgs/toa-heftiba-QnUywvDdI1o-unsplash.jpg";
 
 const Hero = () => {
+  const [loaded, setLoaded] = useState({
+    pic1: false,
+    pic2: false,
+    pic3: false,
+    pic4: false,
+  });
+
+  const handleImageLoad = (imageName) => {
+    setLoaded((prevLoaded) => ({
+      ...prevLoaded,
+      [imageName]: true,
+    }));
+  };
+
   return (
     <div className="relative max-w-screen-xl p-4 px-4 mx-auto bg-customColor1 sm:px-6 lg:px-8 py-26 lg:mt-20">
       <div className="relative">
@@ -24,7 +37,7 @@ const Hero = () => {
             <ul className="gap-6 mt-8 md:grid md:grid-cols-2">
               <li className="mt-6 lg:mt-0">
                 <div className="flex">
-                  <span className="flex items-center justify-center flex-shrink-0 w-6 h-6 text-customColor1 bg-customColor4 rounded-full ">
+                  <span className="flex items-center justify-center flex-shrink-0 w-6 h-6 text-customColor1 bg-customColor4 rounded-full">
                     <svg
                       className="w-4 h-4"
                       viewBox="0 0 20 20"
@@ -37,14 +50,14 @@ const Hero = () => {
                       ></path>
                     </svg>
                   </span>
-                  <span className="ml-4 text-base font-bold leading-6 text-customColor2 ">
+                  <span className="ml-4 text-base font-bold leading-6 text-customColor2">
                     Live modifications
                   </span>
                 </div>
               </li>
               <li className="mt-6 lg:mt-0">
                 <div className="flex">
-                  <span className="flex items-center justify-center flex-shrink-0 w-6 h-6  text-customColor1 bg-customColor4 rounded-full ">
+                  <span className="flex items-center justify-center flex-shrink-0 w-6 h-6 text-customColor1 bg-customColor4 rounded-full">
                     <svg
                       className="w-4 h-4"
                       viewBox="0 0 20 20"
@@ -57,14 +70,14 @@ const Hero = () => {
                       ></path>
                     </svg>
                   </span>
-                  <span className="ml-4 text-base font-bold leading-6 text-customColor2 ">
+                  <span className="ml-4 text-base font-bold leading-6 text-customColor2">
                     Data tracker
                   </span>
                 </div>
               </li>
               <li className="mt-6 lg:mt-0">
                 <div className="flex">
-                  <span className="flex items-center justify-center flex-shrink-0 w-6 h-6 text-customColor1 bg-customColor4 rounded-full ">
+                  <span className="flex items-center justify-center flex-shrink-0 w-6 h-6 text-customColor1 bg-customColor4 rounded-full">
                     <svg
                       className="w-4 h-4"
                       viewBox="0 0 20 20"
@@ -77,14 +90,14 @@ const Hero = () => {
                       ></path>
                     </svg>
                   </span>
-                  <span className="ml-4 text-base font-bold leading-6 text-customColor2 ">
+                  <span className="ml-4 text-base font-bold leading-6 text-customColor2">
                     24/7 support
                   </span>
                 </div>
               </li>
               <li className="mt-6 lg:mt-0">
                 <div className="flex">
-                  <span className="flex items-center justify-center flex-shrink-0 w-6 h-6 text-customColor1 bg-customColor4 rounded-full ">
+                  <span className="flex items-center justify-center flex-shrink-0 w-6 h-6 text-customColor1 bg-customColor4 rounded-full">
                     <svg
                       className="w-4 h-4"
                       viewBox="0 0 20 20"
@@ -97,7 +110,7 @@ const Hero = () => {
                       ></path>
                     </svg>
                   </span>
-                  <span className="ml-4 text-base font-bold leading-6 text-customColor2 ">
+                  <span className="ml-4 text-base font-bold leading-6 text-customColor2">
                     Free tips
                   </span>
                 </div>
@@ -107,40 +120,44 @@ const Hero = () => {
           <div className="relative mt-10 lg:-mx-4 relative-20 lg:mt-0 lg:col-start-1">
             <div className="relative space-y-4">
               <div className="flex items-end justify-center space-x-4 lg:justify-start">
-                <LazyLoad height={200} offset={100}>
-                  <img
-                    className="w-32 rounded-lg shadow-lg md:w-56"
-                    width="200"
-                    src={pic1}
-                    alt="1"
-                  />
-                </LazyLoad>
-                <LazyLoad height={260} offset={100}>
-                  <img
-                    className="w-40 rounded-lg shadow-lg md:w-64"
-                    width="260"
-                    src={pic2}
-                    alt="2"
-                  />
-                </LazyLoad>
+                <img
+                  className={`w-32 rounded-lg shadow-lg md:w-56 ${
+                    loaded.pic1 ? "" : "blur"
+                  }`}
+                  width="200"
+                  src={pic1}
+                  alt="1"
+                  onLoad={() => handleImageLoad("pic1")}
+                />
+                <img
+                  className={`w-40 rounded-lg shadow-lg md:w-64 ${
+                    loaded.pic2 ? "" : "blur"
+                  }`}
+                  width="260"
+                  src={pic2}
+                  alt="2"
+                  onLoad={() => handleImageLoad("pic2")}
+                />
               </div>
               <div className="flex items-start justify-center ml-12 space-x-4 lg:justify-start">
-                <LazyLoad height={170} offset={100}>
-                  <img
-                    className="w-24 rounded-lg shadow-lg md:w-40"
-                    width="170"
-                    src={pic3}
-                    alt="3"
-                  />
-                </LazyLoad>
-                <LazyLoad height={200} offset={100}>
-                  <img
-                    className="w-32 rounded-lg shadow-lg md:w-56"
-                    width="200"
-                    src={pic4}
-                    alt="4"
-                  />
-                </LazyLoad>
+                <img
+                  className={`w-24 rounded-lg shadow-lg md:w-40 ${
+                    loaded.pic3 ? "" : "blur"
+                  }`}
+                  width="170"
+                  src={pic3}
+                  alt="3"
+                  onLoad={() => handleImageLoad("pic3")}
+                />
+                <img
+                  className={`w-32 rounded-lg shadow-lg md:w-56 ${
+                    loaded.pic4 ? "" : "blur"
+                  }`}
+                  width="200"
+                  src={pic4}
+                  alt="4"
+                  onLoad={() => handleImageLoad("pic4")}
+                />
               </div>
             </div>
           </div>

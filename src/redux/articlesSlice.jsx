@@ -122,7 +122,7 @@ const articlesSlice = createSlice({
         if (articleIndex !== -1) {
           state.articles[articleIndex].comments.push(comment);
         }
-        state.commentAdded = true; 
+        state.commentAdded = true;
       })
       .addCase(addComment.rejected, (state, action) => {
         state.error = action.error.message;
@@ -130,7 +130,11 @@ const articlesSlice = createSlice({
   },
 });
 
-export const { setArticles, removeArticle, setArticlesLogged, resetCommentAdded } =
-  articlesSlice.actions;
+export const {
+  setArticles,
+  removeArticle,
+  setArticlesLogged,
+  resetCommentAdded,
+} = articlesSlice.actions;
 
 export default articlesSlice.reducer;

@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import LazyLoad from 'react-lazyload';
-import right from "../assets/Icons/right.png";
 import axios from 'axios';
+import right from "../assets/Icons/right.png";
 import { fetchArticles, removeArticle, setArticlesLogged } from '../redux/articlesSlice';
 
 const backendUrl = process.env.REACT_APP_BACKEND_URL;
@@ -11,6 +10,8 @@ const backendUrl = process.env.REACT_APP_BACKEND_URL;
 const Blog = () => {
   const dispatch = useDispatch();
   const { articles, loading, logged } = useSelector((state) => state.articles);
+
+  const [loadedImages, setLoadedImages] = useState({});
 
   useEffect(() => {
     dispatch(fetchArticles());
@@ -25,6 +26,13 @@ const Blog = () => {
       dispatch(setArticlesLogged());
     }
   }, [articles, loading, logged, dispatch]);
+
+  const handleImageLoad = (token) => {
+    setLoadedImages((prevLoadedImages) => ({
+      ...prevLoadedImages,
+      [token]: true,
+    }));
+  };
 
   const handleDelete = async (token) => {
     try {
@@ -70,7 +78,7 @@ const Blog = () => {
               </p>
               <p className="text-sm md:text-xl font-semibold text-customColor2 flex items-center">
                 All articles are verified
-                <span className="ml-2 text-customColr2">
+                <span className="ml-2 text-customColor2">
                   <img src={right} alt="Right Icon" className="h-4 w-4 md:h-6 md:w-6" />
                 </span>
               </p>
@@ -89,13 +97,12 @@ const Blog = () => {
                 )}
                 <div className="m-auto overflow-hidden rounded-lg shadow-lg cursor-pointer h-90 w-72 md:w-80 xl:w-91">
                   <Link to={`/post/${article.token}`} className="block w-full h-full">
-                    <LazyLoad height={200} offset={100}>
-                      <img
-                        alt={article.title}
-                        src={article.backgroundimg || "/images/blog/default.jpg"}
-                        className="object-cover w-full max-h-40"
-                      />
-                    </LazyLoad>
+                    <img
+                      alt={article.title}
+                      src={article.backgroundimg || "/images/blog/default.jpg"}
+                      className={`object-cover w-full max-h-40 ${loadedImages[article.token] ? "" : "blur"}`}
+                      onLoad={() => handleImageLoad(article.token)}
+                    />
                     <div className="w-full p-4 dark:bg-customColor5">
                       <p className="mb-2 text-xl font-medium text-gray-800 dark:text-white">
                         {article.title}
@@ -108,7 +115,8 @@ const Blog = () => {
                           <img
                             alt={article.author.name}
                             src={article.imageURL || "/images/person/default.jpg"}
-                            className="mx-auto object-cover rounded-full h-10 w-10"
+                            className={`mx-auto object-cover rounded-full h-10 w-10 ${loadedImages[article.token] ? "" : "blur"}`}
+                            onLoad={() => handleImageLoad(article.token)}
                           />
                         </div>
                         <div className="flex flex-col justify-between ml-4 text-sm">
