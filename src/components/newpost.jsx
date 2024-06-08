@@ -1,7 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { GlobalStateContext } from "../GlobalStateContext";
+import { useDispatch, useSelector } from "react-redux";
+import { setArticles } from "../redux/articlesSlice"; 
 
 const Newpost = () => {
   const [formData, setFormData] = useState({
@@ -18,14 +19,15 @@ const Newpost = () => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
-  const { setArticles } = useContext(GlobalStateContext);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const articles = useSelector(state => state.articles.articles);
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name.startsWith("author.")) {
-      const [, field] = name.split("."); // Replace `_` with `_`
+      const [, field] = name.split(".");
       setFormData((prevData) => ({
         ...prevData,
         author: { ...prevData.author, [field]: value },
@@ -48,15 +50,12 @@ const Newpost = () => {
   const validateForm = () => {
     const newErrors = {};
     if (!formData.title) newErrors.title = "Main title is required";
-    if (!formData.description)
-      newErrors.description = "Article title is required";
+    if (!formData.description) newErrors.description = "Article title is required";
     if (!formData.content) newErrors.content = "Content is required";
     if (!formData.author.name) newErrors.authorName = "Author name is required";
-    if (!formData.author.email)
-      newErrors.authorEmail = "Author email is required";
+    if (!formData.author.email) newErrors.authorEmail = "Author email is required";
     if (!formData.imageURL) newErrors.imageURL = "Main image is required";
-    if (!formData.backgroundimg)
-      newErrors.backgroundimg = "Background image is required";
+    if (!formData.backgroundimg) newErrors.backgroundimg = "Background image is required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -86,8 +85,8 @@ const Newpost = () => {
 
       console.log("Upload successful:", response.data);
 
-      // Update global articles state
-      setArticles((prevArticles) => [...prevArticles, response.data]);
+      // Update global articles state with new array
+      dispatch(setArticles([...articles, response.data]));
 
       setLoading(false);
       navigate("/blog");
@@ -114,7 +113,7 @@ const Newpost = () => {
               name="title"
               value={formData.title}
               onChange={handleChange}
-              className=" focus:outline-none bg-inherit w-full py-2"
+              className="focus:outline-none bg-inherit w-full py-2"
               placeholder="Enter main title"
             />
             {errors.title && <p className="text-red-500">{errors.title}</p>}
@@ -132,7 +131,7 @@ const Newpost = () => {
               name="description"
               value={formData.description}
               onChange={handleChange}
-              className=" focus:outline-none bg-inherit w-full py-2"
+              className="focus:outline-none bg-inherit w-full py-2"
               placeholder="Enter article title"
             />
             {errors.description && (
@@ -186,7 +185,7 @@ const Newpost = () => {
               name="content"
               value={formData.content}
               onChange={handleChange}
-              className=" focus:outline-none bg-inherit w-full py-2"
+              className="focus:outline-none bg-inherit w-full py-2"
               placeholder="Enter text"
               style={{ height: "10em" }}
             />
@@ -212,7 +211,7 @@ const Newpost = () => {
               value={formData.author.email}
               onChange={handleChange}
               placeholder="Email"
-              className="font-semibold text-gray-600 text-xs w-full mt-2  focus:outline-none bg-inherit py-2"
+              className="font-semibold text-gray-600 text-xs w-full mt-2 focus:outline-none bg-inherit py-2"
             />
             {errors.authorEmail && (
               <p className="text-red-500">{errors.authorEmail}</p>
