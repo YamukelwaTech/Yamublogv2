@@ -4,8 +4,6 @@ import axios from "axios";
 const GlobalStateContext = createContext();
 
 const GlobalStateProvider = ({ children }) => {
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 769);
-  const [showModal, setShowModal] = useState(false);
   const [articles, setArticles] = useState([]);
   const [article, setArticle] = useState(null);
 
@@ -34,29 +32,13 @@ const GlobalStateProvider = ({ children }) => {
       .catch((error) => {
         console.error("Error fetching articles:", error);
       });
-
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 769);
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
   }, []);
-
-  const toggleModal = () => {
-    setShowModal(!showModal);
-  };
 
   return (
     <GlobalStateContext.Provider
       value={{
-        isMobile,
-        showModal,
-        toggleModal,
         articles,
-        setArticles,  
+        setArticles,
         article,
         setArticle,
       }}
