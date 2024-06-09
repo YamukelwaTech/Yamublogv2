@@ -37,7 +37,7 @@ const HeroSection = () => {
             </a>
 
             <p className="mt-5 text-gray-600">
-              Already joined us?{" "}
+              Already a bloger?{" "}
               <a
                 href="1"
                 title=""

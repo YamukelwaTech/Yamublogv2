@@ -4,49 +4,49 @@ const Services = () => {
   return (
     <div className="container relative flex flex-col justify-between h-full max-w-6xl px-10 mx-auto xl:px-0 mt-5">
       <h2 className="mb-1 text-3xl font-extrabold leading-tight text-gray-900">
-        Services
+        Our Blogs
       </h2>
       <p className="mb-12 text-lg text-gray-500">
-        Here are a few of the awesome services we provide.
+        Here are a few of the awesome reasons you must Yamublog.
       </p>
       <div className="w-full">
         <div className="flex flex-col w-full mb-10 sm:flex-row">
           <div className="w-full mb-10 sm:mb-0 sm:w-1/2">
             <div className="relative h-full ml-0 mr-0 sm:mr-10">
-              <span className="absolute top-0 left-0 w-full h-full mt-1 ml-1 bg-indigo-500 rounded-lg"></span>
-              <div className="relative h-full p-5 bg-white border-2 border-indigo-500 rounded-lg">
+              <span className="absolute top-0 left-0 w-full h-full mt-1 ml-1 bg-customColor5 rounded-lg"></span>
+              <div className="relative h-full p-5 bg-white border-2 border-customColor5 rounded-lg">
                 <div className="flex items-center -mt-1">
                   <h3 className="my-2 ml-3 text-lg font-bold text-gray-800">
-                    DAPP Development
+                    Express Yourself Freely
                   </h3>
                 </div>
-                <p className="mt-3 mb-1 text-xs font-medium text-indigo-500 uppercase">
+                <p className="mt-3 mb-1 text-xs font-medium text-customColor5 uppercase">
                   ------------
                 </p>
                 <p className="mb-2 text-gray-600">
-                  A decentralized application (dapp) is an application built on
-                  a decentralized network that combines a smart contract and a
-                  frontend user interface.
+                  Yamublog embraces all forms of expression. Whether you're a
+                  seasoned tech writer, a budding photographer, or a passionate
+                  foodie, there's a space for your unique voice to shine.
                 </p>
               </div>
             </div>
           </div>
           <div className="w-full sm:w-1/2">
             <div className="relative h-full ml-0 md:mr-10">
-              <span className="absolute top-0 left-0 w-full h-full mt-1 ml-1 bg-purple-500 rounded-lg"></span>
-              <div className="relative h-full p-5 bg-white border-2 border-purple-500 rounded-lg">
+              <span className="absolute top-0 left-0 w-full h-full mt-1 ml-1 bg-customColor4 rounded-lg"></span>
+              <div className="relative h-full p-5 bg-white border-2 border-customColor4 rounded-lg">
                 <div className="flex items-center -mt-1">
                   <h3 className="my-2 ml-3 text-lg font-bold text-gray-800">
-                    Web 3.0 Development
+                    Content is King
                   </h3>
                 </div>
-                <p className="mt-3 mb-1 text-xs font-medium text-purple-500 uppercase">
+                <p className="mt-3 mb-1 text-xs font-medium text-customColor4 uppercase">
                   ------------
                 </p>
                 <p className="mb-2 text-gray-600">
-                  Web 3.0 is the third generation of Internet services that will
-                  focus on understanding and analyzing data to provide a
-                  semantic web.
+                  Yamublog empowers you to tell your story in the way that works
+                  best for you. Share captivating text posts, stunning visuals,
+                  or even video content to bring your ideas to life.
                 </p>
               </div>
             </div>
@@ -55,20 +55,20 @@ const Services = () => {
         <div className="flex flex-col w-full mb-5 sm:flex-row">
           <div className="w-full mb-10 sm:mb-0 sm:w-1/2">
             <div className="relative h-full ml-0 mr-0 sm:mr-10">
-              <span className="absolute top-0 left-0 w-full h-full mt-1 ml-1 bg-blue-400 rounded-lg"></span>
-              <div className="relative h-full p-5 bg-white border-2 border-blue-400 rounded-lg">
+              <span className="absolute top-0 left-0 w-full h-full mt-1 ml-1 bg-customColor2 rounded-lg"></span>
+              <div className="relative h-full p-5 bg-white border-2 border-customColor2 rounded-lg">
                 <div className="flex items-center -mt-1">
                   <h3 className="my-2 ml-3 text-lg font-bold text-gray-800">
-                    Project Audit
+                    Engage and Interact:
                   </h3>
                 </div>
-                <p className="mt-3 mb-1 text-xs font-medium text-blue-400 uppercase">
+                <p className="mt-3 mb-1 text-xs font-medium text-customColor2 uppercase">
                   ------------
                 </p>
                 <p className="mb-2 text-gray-600">
-                  A Project Audit is a formal review of a project, which is
-                  intended to assess the extent to which project management
-                  standards are being upheld.
+                  Yamublog fosters meaningful connections. "Like" and comment on
+                  posts to spark discussions, participate in Yamublog
+                  challenges, and build relationships with your fellow creators.
                 </p>
               </div>
             </div>
@@ -79,36 +79,36 @@ const Services = () => {
               <div className="relative h-full p-5 bg-white border-2 border-yellow-400 rounded-lg">
                 <div className="flex items-center -mt-1">
                   <h3 className="my-2 ml-3 text-lg font-bold text-gray-800">
-                    Hacking / RE
+                    Go Viral
                   </h3>
                 </div>
                 <p className="mt-3 mb-1 text-xs font-medium text-yellow-400 uppercase">
                   ------------
                 </p>
                 <p className="mb-2 text-gray-600">
-                  A security hacker is someone who explores methods for
-                  breaching defenses and exploiting weaknesses in a computer
-                  system or network.
+                  The power of sharing is at your fingertips. Share your
+                  Yamublogs on other social media platforms to expand your reach
+                  and ignite conversations on a global scale.
                 </p>
               </div>
             </div>
           </div>
           <div className="w-full sm:w-1/2">
             <div className="relative h-full ml-0 md:mr-10">
-              <span className="absolute top-0 left-0 w-full h-full mt-1 ml-1 bg-green-500 rounded-lg"></span>
-              <div className="relative h-full p-5 bg-white border-2 border-green-500 rounded-lg">
+              <span className="absolute top-0 left-0 w-full h-full mt-1 ml-1 bg-customColor5 rounded-lg"></span>
+              <div className="relative h-full p-5 bg-white border-2 border-customColor5 rounded-lg">
                 <div className="flex items-center -mt-1">
                   <h3 className="my-2 ml-3 text-lg font-bold text-gray-800">
-                    Bot/Script Development
+                    Find Your Tribe
                   </h3>
                 </div>
-                <p className="mt-3 mb-1 text-xs font-medium text-green-500 uppercase">
+                <p className="mt-3 mb-1 text-xs font-medium text-customColor5 uppercase">
                   ------------
                 </p>
                 <p className="mb-2 text-gray-600">
-                  Bot development frameworks were created as advanced software
-                  tools that eliminate a large amount of manual work and
-                  accelerate the development process.
+                  Connect with a community that shares your interests. Explore a
+                  vast range of Yamublogs on diverse topics, or build your own
+                  audience around your niche passion.
                 </p>
               </div>
             </div>

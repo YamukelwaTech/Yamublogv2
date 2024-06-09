@@ -95,7 +95,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="p-5 sm:w-1/5">
-          <div className="text-xs uppercase text-gray-500 font-medium mb-6">
+          <div className="text-xs uppercase text-customColor2 font-medium mb-6">
             Links
           </div>
           <a
@@ -118,7 +118,7 @@ const Footer = () => {
           </a>
         </div>
         <div className="p-5 sm:w-1/5">
-          <div className="text-xs uppercase text-gray-500 font-medium mb-6">
+          <div className="text-xs uppercase text-customColor2 font-medium mb-6">
             Legal
           </div>
           <a
@@ -135,7 +135,7 @@ const Footer = () => {
           </a>
         </div>
         <div className="p-5 sm:w-1/5">
-          <div className="text-xs uppercase text-gray-500 font-medium mb-6">
+          <div className="text-xs uppercase text-customColor2 font-medium mb-6">
             Social
           </div>
           <a
@@ -158,7 +158,7 @@ const Footer = () => {
           </a>
         </div>
         <div className="p-5 sm:w-1/5">
-          <div className="text-xs uppercase text-gray-500 font-medium mb-6">
+          <div className="text-xs uppercase text-customColor2 font-medium mb-6">
             Company
           </div>
           <a
@@ -181,7 +181,7 @@ const Footer = () => {
           </a>
         </div>
       </div>
-      <div className="py-6 text-sm text-gray-400 border-t border-gray-400 text-center">
+      <div className="py-6 text-sm text-customColor2 border-t border-customColor2 text-center">
         © 2023. All rights reserved.
       </div>
     </div>
