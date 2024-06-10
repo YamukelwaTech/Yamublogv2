@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchPost, addComment, resetCommentAdded } from "../redux/articlesSlice"; 
+import {
+  fetchPost,
+  addComment,
+  resetCommentAdded,
+} from "../redux/articlesSlice";
 import loading from "../assets/Icons/loading.png";
 
 const Post = () => {
@@ -97,7 +101,7 @@ const Post = () => {
             </p>
             <div className="border-t border-gray-300 mt-8 pt-8">
               <h2 className="text-2xl font-semibold mb-4">Comments</h2>
-              {article.comments.map((comment, index) => (
+              {(article.comments || []).map((comment, index) => (
                 <div key={index} className="border p-4 mb-4">
                   <h3 className="font-semibold text-sm lg:text-base">
                     {comment.user}

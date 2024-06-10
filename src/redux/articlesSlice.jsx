@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const backendUrl = process.env.REACT_APP_BACKEND_URL;
+console.log(`${backendUrl}`);
 
 // Async thunk for fetching all articles
 export const fetchArticles = createAsyncThunk(
@@ -105,6 +106,7 @@ const articlesSlice = createSlice({
       })
       .addCase(fetchPost.fulfilled, (state, action) => {
         state.article = action.payload;
+        state.article.comments = state.article.comments || []; // Initialize comments array if null for database 
         state.loading = false;
         state.error = null;
       })
