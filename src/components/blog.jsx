@@ -8,7 +8,6 @@ import {
   fetchArticles,
   removeArticle,
   setArticlesLogged,
-  setArticles,
 } from "../redux/articlesSlice";
 
 const backendUrl = process.env.REACT_APP_BACKEND_URL;
@@ -18,12 +17,7 @@ const Blog = () => {
   const { articles, loading, logged } = useSelector((state) => state.articles);
 
   useEffect(() => {
-    const localArticles = localStorage.getItem("articles");
-    if (localArticles) {
-      dispatch(setArticles(JSON.parse(localArticles)));
-    } else {
-      dispatch(fetchArticles());
-    }
+    dispatch(fetchArticles());
   }, [dispatch]);
 
   useEffect(() => {
@@ -33,7 +27,6 @@ const Blog = () => {
         console.log("Token:", article.token);
       });
       dispatch(setArticlesLogged());
-      localStorage.setItem("articles", JSON.stringify(articles));
     }
   }, [articles, loading, logged, dispatch]);
 
@@ -47,10 +40,6 @@ const Blog = () => {
 
       if (response.status === 204) {
         dispatch(removeArticle(token));
-        const updatedArticles = articles.filter(
-          (article) => article.token !== token
-        );
-        localStorage.setItem("articles", JSON.stringify(updatedArticles));
       } else {
         console.error(
           "Failed to delete the post, status code:",
@@ -79,123 +68,123 @@ const Blog = () => {
 
   return (
     <>
-    <div className="max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16 relative">
-      {loading ? (
-        <div className="flex items-center justify-center h-full">
-          <p className="text-2xl font-semibold text-customColor2">
-            Fetching all the latest posts...
-          </p>
-        </div>
-      ) : (
-        <>
-          <div className="flex items-end justify-between mb-12 header">
-            <div className="title md:ml-20">
-              <p className="mb-4 text-3xl font-bold text-customColor2">
-                Latest YamuBlogs
-              </p>
-              <p className="text-sm md:text-xl font-semibold text-customColor2 flex items-center">
-                All articles are verified
-                <span className="ml-2 text-customColor2">
-                  <img
-                    src={right}
-                    alt="Right Icon"
-                    className="h-4 w-4 md:h-6 md:w-6"
-                  />
-                </span>
-              </p>
-            </div>
+      <div className="max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16 relative">
+        {loading ? (
+          <div className="flex items-center justify-center h-full">
+            <p className="text-2xl font-semibold text-customColor2">
+              Fetching all the latest posts...
+            </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-12 gap-5">
-            {articles.length > 0 && (
-              <>
-                <div className="sm:col-span-5">
-                  <Link to={`/post/${articles[0].token}`}>
-                    <div
-                      className="bg-cover text-center overflow-hidden"
-                      style={{
-                        minHeight: "300px",
-                        backgroundImage: `url(${
-                          articles[0].backgroundimg ||
-                          "/images/blog/default.jpg"
-                        })`,
-                      }}
-                      title={articles[0].title}
+        ) : (
+          <>
+            <div className="flex items-end justify-between mb-12 header">
+              <div className="title md:ml-20">
+                <p className="mb-4 text-3xl font-bold text-customColor2">
+                  Latest YamuBlogs
+                </p>
+                <p className="text-sm md:text-xl font-semibold text-customColor2 flex items-center">
+                  All articles are verified
+                  <span className="ml-2 text-customColor2">
+                    <img
+                      src={right}
+                      alt="Right Icon"
+                      className="h-4 w-4 md:h-6 md:w-6"
                     />
-                  </Link>
-                  <div className="mt-3 bg-customColor3 rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
-                    <div>
-                      <Link
-                        to={`/category/${articles[0].category}`}
-                        className="text-xs text-indigo-600 uppercase font-medium hover:text-gray-900 transition duration-500 ease-in-out"
-                      >
-                        {articles[0].category}
-                      </Link>
-                      <Link
-                        to={`/post/${articles[0].token}`}
-                        className="block text-gray-900 font-bold text-2xl mb-2 hover:text-indigo-600 transition duration-500 ease-in-out"
-                      >
-                        {articles[0].title}
-                      </Link>
-                      <p className="text-gray-700 text-base mt-2">
-                        {articles[0].description}
-                      </p>
+                  </span>
+                </p>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-12 gap-5">
+              {articles.length > 0 && (
+                <>
+                  <div className="sm:col-span-5">
+                    <Link to={`/post/${articles[0].token}`}>
+                      <div
+                        className="bg-cover text-center overflow-hidden"
+                        style={{
+                          minHeight: "300px",
+                          backgroundImage: `url(${
+                            articles[0].backgroundimg ||
+                            "/images/blog/default.jpg"
+                          })`,
+                        }}
+                        title={articles[0].title}
+                      />
+                    </Link>
+                    <div className="mt-3 bg-customColor3 rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
+                      <div>
+                        <Link
+                          to={`/category/${articles[0].category}`}
+                          className="text-xs text-indigo-600 uppercase font-medium hover:text-gray-900 transition duration-500 ease-in-out"
+                        >
+                          {articles[0].category}
+                        </Link>
+                        <Link
+                          to={`/post/${articles[0].token}`}
+                          className="block text-gray-900 font-bold text-2xl mb-2 hover:text-indigo-600 transition duration-500 ease-in-out"
+                        >
+                          {articles[0].title}
+                        </Link>
+                        <p className="text-gray-700 text-base mt-2">
+                          {articles[0].description}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="sm:col-span-7 grid grid-cols-2 lg:grid-cols-3 gap-5">
-                  {articles.slice(1).map((article, index) => (
-                    <div key={article.token} className="relative">
-                      {index >= 12 && (
-                        <button
-                          onClick={() => handleDelete(article.token)}
-                          className="absolute top-0 right-0 mt-1 mr-1 p-1 bg-red-600 text-white rounded-full"
+                  <div className="sm:col-span-7 grid grid-cols-2 lg:grid-cols-3 gap-5">
+                    {articles.slice(1).map((article, index) => (
+                      <div key={article.token} className="relative">
+                        {index >= 12 && (
+                          <button
+                            onClick={() => handleDelete(article.token)}
+                            className="absolute top-0 right-0 mt-1 mr-1 p-1 bg-red-600 text-white rounded-full"
+                          >
+                            &times;
+                          </button>
+                        )}
+                        <Link to={`/post/${article.token}`}>
+                          <div
+                            className="h-40 bg-cover text-center overflow-hidden"
+                            style={{
+                              backgroundImage: `url(${
+                                article.backgroundimg ||
+                                "/images/blog/default.jpg"
+                              })`,
+                            }}
+                            title={article.title}
+                          >
+                            <img
+                              src={
+                                article.backgroundimg ||
+                                "/images/blog/default.jpg"
+                              }
+                              alt={article.title}
+                              className={`object-cover w-full h-full ${
+                                !imageLoaded[index] ? "blur" : ""
+                              }`}
+                              onLoad={() => handleImageLoad(index)}
+                              style={{ display: "none" }}
+                            />
+                          </div>
+                        </Link>
+                        <Link
+                          to={`/post/${article.token}`}
+                          className="text-gray-900 inline-block bg-inherent font-semibold text-md my-2 hover:text-indigo-600 transition duration-500 ease-in-out"
                         >
-                          &times;
-                        </button>
-                      )}
-                      <Link to={`/post/${article.token}`}>
-                        <div
-                          className="h-40 bg-cover text-center overflow-hidden"
-                          style={{
-                            backgroundImage: `url(${
-                              article.backgroundimg ||
-                              "/images/blog/default.jpg"
-                            })`,
-                          }}
-                          title={article.title}
-                        >
-                          <img
-                            src={
-                              article.backgroundimg ||
-                              "/images/blog/default.jpg"
-                            }
-                            alt={article.title}
-                            className={`object-cover w-full h-full ${
-                              !imageLoaded[index] ? "blur" : ""
-                            }`}
-                            onLoad={() => handleImageLoad(index)}
-                            style={{ display: "none" }}
-                          />
-                        </div>
-                      </Link>
-                      <Link
-                        to={`/post/${article.token}`}
-                        className="text-gray-900 inline-block bg-inherent font-semibold text-md my-2 hover:text-indigo-600 transition duration-500 ease-in-out"
-                      >
-                        {article.title}
-                      </Link>
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
-          </div>
-        </>
-      )}
-    </div>
-        <Footer />
-        </>
+                          {article.title}
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+          </>
+        )}
+      </div>
+      <Footer />
+    </>
   );
 };
 
