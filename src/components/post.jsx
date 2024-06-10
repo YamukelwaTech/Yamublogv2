@@ -14,6 +14,7 @@ const Post = () => {
   const article = useSelector((state) => state.articles.article);
   const isLoading = useSelector((state) => state.articles.loading);
   const [newComment, setNewComment] = useState("");
+  const [username, setUsername] = useState(""); // New state for username
   const [commentLoading, setCommentLoading] = useState(false);
   const commentAdded = useSelector((state) => state.articles.commentAdded);
 
@@ -22,18 +23,20 @@ const Post = () => {
   }, [dispatch, token, commentAdded]);
 
   const handleCommentSubmit = async () => {
-    if (newComment.trim() !== "") {
+    if (newComment.trim() !== "" && username.trim() !== "") {
+      // Check if username is also filled
       try {
         setCommentLoading(true);
 
         const comment = {
-          user: "Current User",
+          user: username, // Use the username from state
           text: newComment,
           timestamp: new Date().toISOString(),
         };
 
         await dispatch(addComment({ token, comment }));
         setNewComment("");
+        setUsername(""); // Clear the username field after submitting
       } catch (error) {
         console.error("Error adding comment:", error);
       } finally {
@@ -111,6 +114,13 @@ const Post = () => {
                 </div>
               ))}
               <div className="p-1 mb-10">
+                <input
+                  type="text"
+                  value={username} // Bind the username state to the input field
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Your name..."
+                  className="border border-gray-300 p-1 mb-2 bg-inherit text-sm lg:text-base"
+                />
                 <input
                   type="text"
                   value={newComment}
