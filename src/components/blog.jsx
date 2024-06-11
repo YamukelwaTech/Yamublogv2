@@ -111,7 +111,7 @@ const Blog = () => {
                         title={articles[0].title}
                       />
                     </Link>
-                    <div className="mt-3 bg-customColor3 rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
+                    <div className="mt-3 rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
                       <div>
                         <Link
                           to={`/category/${articles[0].category}`}

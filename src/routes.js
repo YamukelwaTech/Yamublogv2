@@ -9,7 +9,7 @@ const NewPost = lazy(() => import("./components/newpost"));
 
 const AppRoutes = () => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div className="center-loading">Loading...</div>}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/blog" element={<Blog />} />
@@ -21,3 +21,4 @@ const AppRoutes = () => {
 };
 
 export default AppRoutes;
+

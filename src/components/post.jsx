@@ -13,14 +13,29 @@ const Post = () => {
   const dispatch = useDispatch();
   const article = useSelector((state) => state.articles.article);
   const isLoading = useSelector((state) => state.articles.loading);
+  const commentAdded = useSelector((state) => state.articles.commentAdded);
+
   const [newComment, setNewComment] = useState("");
   const [username, setUsername] = useState(""); // New state for username
   const [commentLoading, setCommentLoading] = useState(false);
-  const commentAdded = useSelector((state) => state.articles.commentAdded);
+  const [localComments, setLocalComments] = useState([]);
 
   useEffect(() => {
     dispatch(fetchPost(token));
-  }, [dispatch, token, commentAdded]);
+  }, [dispatch, token]);
+
+  useEffect(() => {
+    if (article) {
+      setLocalComments(article.comments || []);
+    }
+  }, [article]);
+
+  useEffect(() => {
+    if (commentAdded) {
+      dispatch(fetchPost(token)); // Re-fetch the post to get the updated comments
+      dispatch(resetCommentAdded());
+    }
+  }, [commentAdded, dispatch, token]);
 
   const handleCommentSubmit = async () => {
     if (newComment.trim() !== "" && username.trim() !== "") {
@@ -37,6 +52,7 @@ const Post = () => {
         await dispatch(addComment({ token, comment }));
         setNewComment("");
         setUsername(""); // Clear the username field after submitting
+        setLocalComments([...localComments, comment]); // Update local comments
       } catch (error) {
         console.error("Error adding comment:", error);
       } finally {
@@ -44,12 +60,6 @@ const Post = () => {
       }
     }
   };
-
-  useEffect(() => {
-    if (commentAdded) {
-      dispatch(resetCommentAdded());
-    }
-  }, [commentAdded, dispatch]);
 
   if (isLoading) {
     return (
@@ -104,7 +114,7 @@ const Post = () => {
             </p>
             <div className="border-t border-gray-300 mt-8 pt-8">
               <h2 className="text-2xl font-semibold mb-4">Comments</h2>
-              {(article.comments || []).map((comment, index) => (
+              {localComments.map((comment, index) => (
                 <div key={index} className="border p-4 mb-4">
                   <h3 className="font-semibold text-sm lg:text-base">
                     {comment.user}
