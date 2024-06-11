@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setArticles } from "../redux/articlesSlice"; 
+import { setArticles } from "../redux/articlesSlice";
 
 const Newpost = () => {
   const [formData, setFormData] = useState({
@@ -72,8 +72,8 @@ const Newpost = () => {
       formDataToSend.append("title", formData.title);
       formDataToSend.append("description", formData.description);
       formDataToSend.append("content", formData.content);
-      formDataToSend.append("author[name]", formData.author.name);
-      formDataToSend.append("author[email]", formData.author.email);
+      formDataToSend.append("authorName", formData.author.name);
+      formDataToSend.append("authorEmail", formData.author.email);
       formDataToSend.append("imageURL", formData.imageURL);
       formDataToSend.append("backgroundimg", formData.backgroundimg);
 
