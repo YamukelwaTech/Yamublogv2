@@ -16,8 +16,7 @@ const Footer = () => {
             Track, share, measure—you have full control.
           </p>
           <div className="flex-row flex">
-            {/* Example SVG element with xmlnsSerif removed */}
-            <a href="/#" className="w-6 mx-1">
+            <span className="w-6 mx-1">
               <svg
                 className="fill-current cursor-pointer text-gray-500 hover:text-customColor4"
                 width="100%"
@@ -36,7 +35,7 @@ const Footer = () => {
               >
                 {/* SVG content */}
               </svg>
-            </a>
+            </span>
             {/* Repeat for other SVG elements */}
           </div>
         </div>
@@ -44,88 +43,54 @@ const Footer = () => {
           <div className="text-xs uppercase text-customColor2 font-medium mb-6">
             Links
           </div>
-          {/* Footer links */}
-          <a
-            href="/#"
-            className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-          >
+          <span className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700">
             FAQ
-          </a>
-          <a
-            href="/#"
-            className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-          >
+          </span>
+          <span className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700">
             Help
-          </a>
-          <a
-            href="/#"
-            className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-          >
+          </span>
+          <span className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700">
             Support
-          </a>
+          </span>
         </div>
         <div className="p-5 sm:w-1/5">
           <div className="text-xs uppercase text-customColor2 font-medium mb-6">
             Legal
           </div>
-          <a
-            href="/#"
-            className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-          >
+          <span className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700">
             Terms
-          </a>
-          <a
-            href="/#"
-            className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-          >
+          </span>
+          <span className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700">
             Privacy
-          </a>
+          </span>
         </div>
         <div className="p-5 sm:w-1/5">
           <div className="text-xs uppercase text-customColor2 font-medium mb-6">
             Social
           </div>
-          <a
-            href="/#"
-            className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-          >
+          <span className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700">
             Facebook
-          </a>
-          <a
-            href="/#"
-            className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-          >
+          </span>
+          <span className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700">
             Linkedin
-          </a>
-          <a
-            href="/#"
-            className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-          >
+          </span>
+          <span className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700">
             Twitter
-          </a>
+          </span>
         </div>
         <div className="p-5 sm:w-1/5">
           <div className="text-xs uppercase text-customColor2 font-medium mb-6">
             Company
           </div>
-          <a
-            href="/#"
-            className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-          >
+          <span className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700">
             Official Blog
-          </a>
-          <a
-            href="/#"
-            className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-          >
+          </span>
+          <span className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700">
             About Us
-          </a>
-          <a
-            href="/#"
-            className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700"
-          >
+          </span>
+          <span className="my-3 block text-gray-300 hover:text-gray-100 text-sm font-medium duration-700">
             Contact
-          </a>
+          </span>
         </div>
       </div>
       <div className="py-6 text-sm text-customColor2 border-t border-customColor2 text-center">

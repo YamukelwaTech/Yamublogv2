@@ -13,11 +13,9 @@ const HeroSection = () => {
               Interactivity between is the key to success.
             </p>
 
-            <a
-              href="1"
-              title=""
-              className="inline-flex items-center px-6 py-4 mt-8 font-semibold text-black transition-all duration-200 bg-customColor3 rounded-full lg:mt-16 hover:bg-yellow-600 focus:bg-ycustomColor3"
-              role="button"
+            <button
+              type="button"
+              className="inline-flex items-center px-6 py-4 mt-8 font-semibold text-black transition-all duration-200 bg-customColor3 rounded-full lg:mt-16 hover:bg-yellow-600 focus:bg-customColor3"
             >
               Join for free
               <svg
@@ -34,17 +32,16 @@ const HeroSection = () => {
                   d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-            </a>
+            </button>
 
             <p className="mt-5 text-gray-600">
               Already a bloger?{" "}
-              <a
-                href="1"
-                title=""
+              <button
+                type="button"
                 className="text-black transition-all duration-200 hover:underline"
               >
                 Log in
-              </a>
+              </button>
             </p>
           </div>
 
