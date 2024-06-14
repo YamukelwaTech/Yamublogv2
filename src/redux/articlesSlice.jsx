@@ -7,7 +7,7 @@ console.log(`${backendUrl}`);
 // Async thunk for fetching all articles
 export const fetchArticles = createAsyncThunk(
   "articles/fetchArticles",
-  async () => {
+  async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(`${backendUrl}/posts`);
       const generateRandomPublishTime = () => {
@@ -25,9 +25,8 @@ export const fetchArticles = createAsyncThunk(
         readTime: generateRandomReadTime(),
       }));
     } catch (error) {
-      // Handle error here
       console.error("Error fetching articles:", error);
-      throw error;
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -35,14 +34,13 @@ export const fetchArticles = createAsyncThunk(
 // Async thunk for fetching a single post by token
 export const fetchPost = createAsyncThunk(
   "articles/fetchPost",
-  async (token) => {
+  async (token, { rejectWithValue }) => {
     try {
       const response = await axios.get(`${backendUrl}/posts/${token}`);
       return response.data;
     } catch (error) {
-      // Handle error here
       console.error(`Error fetching post with token ${token}:`, error);
-      throw error;
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -50,7 +48,7 @@ export const fetchPost = createAsyncThunk(
 // Async thunk for adding a comment to a post
 export const addComment = createAsyncThunk(
   "articles/addComment",
-  async ({ token, comment }, { dispatch }) => {
+  async ({ token, comment }, { dispatch, rejectWithValue }) => {
     try {
       const response = await axios.post(
         `${backendUrl}/posts/${token}/comments`,
@@ -60,9 +58,8 @@ export const addComment = createAsyncThunk(
       dispatch(resetCommentAdded());
       return { token, comment: data };
     } catch (error) {
-      // Handle error here
       console.error(`Error adding comment to post ${token}:`, error);
-      throw error;
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -73,8 +70,8 @@ const articlesSlice = createSlice({
     articles: [],
     loading: true,
     logged: false,
-    error: null, // Add error state
-    commentAdded: false, // Add commentAdded state
+    error: null,
+    commentAdded: false,
   },
   reducers: {
     setArticles: (state, action) => {
@@ -95,6 +92,10 @@ const articlesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(fetchArticles.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(fetchArticles.fulfilled, (state, action) => {
         state.articles = action.payload;
         state.loading = false;
@@ -102,17 +103,21 @@ const articlesSlice = createSlice({
       })
       .addCase(fetchArticles.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.payload || "Failed to fetch articles.";
+      })
+      .addCase(fetchPost.pending, (state) => {
+        state.loading = true;
+        state.error = null;
       })
       .addCase(fetchPost.fulfilled, (state, action) => {
         state.article = action.payload;
-        state.article.comments = state.article.comments || []; // Initialize comments array if null for database 
+        state.article.comments = state.article.comments || [];
         state.loading = false;
         state.error = null;
       })
       .addCase(fetchPost.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.payload || "Failed to fetch post.";
       })
       .addCase(addComment.fulfilled, (state, action) => {
         const { token, comment } = action.payload;
@@ -125,7 +130,7 @@ const articlesSlice = createSlice({
         state.commentAdded = true;
       })
       .addCase(addComment.rejected, (state, action) => {
-        state.error = action.error.message;
+        state.error = action.payload || "Failed to add comment.";
       });
   },
 });
