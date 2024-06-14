@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import right from "../assets/Icons/right.png";
@@ -14,7 +14,7 @@ const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
 const Blog = () => {
   const dispatch = useDispatch();
-  const { articles, loading, logged } = useSelector((state) => state.articles);
+  const { articles, loading, logged, error } = useSelector((state) => state.articles);
 
   useEffect(() => {
     dispatch(fetchArticles());
@@ -61,18 +61,43 @@ const Blog = () => {
   };
 
   const [imageLoaded, setImageLoaded] = useState({});
+  const [loadingMessage, setLoadingMessage] = useState("Fetching all the latest posts...");
+
+  const loadingMessages = useMemo(() => [
+    "Fetching all the latest posts...",
+    "Hang tight, fetching new content...",
+    "Loading articles, please wait...",
+  ], []);
+
+  useEffect(() => {
+    const messageInterval = setInterval(() => {
+      setLoadingMessage((prevMessage) => {
+        const currentIndex = loadingMessages.indexOf(prevMessage);
+        const nextIndex = (currentIndex + 1) % loadingMessages.length;
+        return loadingMessages[nextIndex];
+      });
+    }, 2000);
+
+    return () => clearInterval(messageInterval);
+  }, [loadingMessages]);
 
   const handleImageLoad = (index) => {
     setImageLoaded((prevState) => ({ ...prevState, [index]: true }));
   };
 
   return (
-    <>
-      <div className="max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16 relative">
+    <div className="min-h-screen flex flex-col">
+      <div className="flex-grow max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16">
         {loading ? (
           <div className="flex items-center justify-center h-full">
             <p className="text-2xl font-semibold text-customColor2">
-              Fetching all the latest posts...
+              {loadingMessage}
+            </p>
+          </div>
+        ) : error ? (
+          <div className="flex items-center justify-center h-full">
+            <p className="text-2xl font-semibold text-red-500">
+              Error loading articles: {error}
             </p>
           </div>
         ) : (
@@ -184,7 +209,7 @@ const Blog = () => {
         )}
       </div>
       <Footer />
-    </>
+    </div>
   );
 };
 
