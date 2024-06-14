@@ -14,7 +14,9 @@ const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
 const Blog = () => {
   const dispatch = useDispatch();
-  const { articles, loading, logged, error } = useSelector((state) => state.articles);
+  const { articles, loading, logged, error } = useSelector(
+    (state) => state.articles
+  );
 
   useEffect(() => {
     dispatch(fetchArticles());
@@ -61,13 +63,18 @@ const Blog = () => {
   };
 
   const [imageLoaded, setImageLoaded] = useState({});
-  const [loadingMessage, setLoadingMessage] = useState("Fetching all the latest posts...");
+  const [loadingMessage, setLoadingMessage] = useState(
+    "Fetching all the latest posts..."
+  );
 
-  const loadingMessages = useMemo(() => [
-    "Fetching all the latest posts...",
-    "Hang tight, fetching new content...",
-    "Loading articles, please wait...",
-  ], []);
+  const loadingMessages = useMemo(
+    () => [
+      "Fetching all the latest posts...",
+      "Hang tight, fetching new content...",
+      "Loading articles, please wait...",
+    ],
+    []
+  );
 
   useEffect(() => {
     const messageInterval = setInterval(() => {
@@ -97,7 +104,11 @@ const Blog = () => {
         ) : error ? (
           <div className="flex items-center justify-center h-full">
             <p className="text-2xl font-semibold text-red-500">
-              Our backend seems to be down: {error}
+              We're currently experiencing technical difficulties with our
+              backend system. The issue is as follows: {error}. Our team is
+              actively working on resolving this problem as quickly as possible.
+              We apologize for any inconvenience this may cause and appreciate
+              your patience. Thank you for understanding.
             </p>
           </div>
         ) : (
