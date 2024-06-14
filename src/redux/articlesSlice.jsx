@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const backendUrl = process.env.REACT_APP_BACKEND_URL;
-console.log(`${backendUrl}`);
 
 // Async thunk for fetching all articles
 export const fetchArticles = createAsyncThunk(
