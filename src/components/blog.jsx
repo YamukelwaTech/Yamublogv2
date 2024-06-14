@@ -97,7 +97,7 @@ const Blog = () => {
         ) : error ? (
           <div className="flex items-center justify-center h-full">
             <p className="text-2xl font-semibold text-red-500">
-              Error loading articles: {error}
+              Our backend seems to be down: {error}
             </p>
           </div>
         ) : (
