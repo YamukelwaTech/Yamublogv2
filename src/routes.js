@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
+import loading from "./assets/Icons/loading.png";
 
 // Lazy load components for future dev
 const Home = lazy(() => import("./pages/Home"));
@@ -9,7 +10,17 @@ const NewPost = lazy(() => import("./components/newpost"));
 
 const AppRoutes = () => {
   return (
-    <Suspense fallback={<div className="center-loading">Loading...</div>}>
+    <Suspense
+      fallback={
+        <div className="center-loading">
+          <img
+            src={loading}
+            alt="Loading..."
+            style={{ width: "100px", height: "100px" }}
+          />
+        </div>
+      }
+    >
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/blog" element={<Blog />} />
@@ -21,4 +32,3 @@ const AppRoutes = () => {
 };
 
 export default AppRoutes;
-

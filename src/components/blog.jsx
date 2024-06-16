@@ -24,7 +24,7 @@ const Blog = () => {
 
   useEffect(() => {
     if (!loading && articles.length > 0 && !logged) {
-      console.log("Logging article tokens once when articles change:");
+      // console.log("Logging article tokens once when articles change:");
       articles.forEach((article) => {
         console.log("Token:", article.token);
       });
